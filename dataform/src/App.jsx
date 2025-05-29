@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
@@ -9,7 +9,14 @@ function App() {
     address: ''
   });
 
-  const [people, setPeople] = useState([]);
+  const [people, setPeople] = useState(() => {
+      const saved = localStorage.getItem('peopleData');
+      return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('peopleData', JSON.stringify(people));
+  },[people]);
 
   function handleChange(event) {
     const name  = event.target.name;
